@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/rand"
 	"fmt"
+	"github.com/monochromegane/hoi/server"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -27,6 +28,9 @@ func main() {
 	os.Symlink(file, filepath.Join(randomDir, filepath.Base(file)))
 
 	fmt.Println(filepath.Join(random, filepath.Base(file)))
+
+	// start hoi server
+	server.Start(publicDir)
 }
 
 func randomString(length int) string {
