@@ -40,7 +40,8 @@ func main() {
 		file := args[0]
 		os.Symlink(file, filepath.Join(randomDir, filepath.Base(file)))
 
-		fmt.Println(filepath.Join(random, filepath.Base(file)))
+		// print URL
+		printUrl(filepath.Join(random, filepath.Base(file)))
 
 		// run hoi server as a daemon
 		cmd := exec.Command(os.Args[0], "--server")
@@ -57,4 +58,8 @@ func randomString(length int) string {
 		bytes[i] = alphanum[b%byte(len(alphanum))]
 	}
 	return string(bytes)
+}
+
+func printUrl(path string) {
+	fmt.Println(server.Url() + "/" + path)
 }
