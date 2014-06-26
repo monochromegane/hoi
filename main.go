@@ -15,12 +15,10 @@ var opts option.Options
 
 func main() {
 
-        args, err := flags.Parse(&opts)
-        if err != nil {
-                os.Exit(1)
-        }
-
-	file := args[0]
+	args, err := flags.Parse(&opts)
+	if err != nil {
+		os.Exit(1)
+	}
 
 	// create hoi public directory
 	usr, _ := user.Current()
@@ -28,18 +26,22 @@ func main() {
 	publicDir := filepath.Join(homeDir, ".hoi", "public")
 	os.MkdirAll(publicDir, 0755)
 
-	// create random directory
-	random := randomString(32)
-	randomDir := filepath.Join(publicDir, random)
-	os.Mkdir(randomDir, 0755)
+	if opts.Server {
+		// start hoi server
+		server.Start(publicDir)
+	} else {
+		// create random directory
+		random := randomString(32)
+		randomDir := filepath.Join(publicDir, random)
+		os.Mkdir(randomDir, 0755)
 
-	// create symblic link
-	os.Symlink(file, filepath.Join(randomDir, filepath.Base(file)))
+		// create symblic link
+		file := args[0]
+		os.Symlink(file, filepath.Join(randomDir, filepath.Base(file)))
 
-	fmt.Println(filepath.Join(random, filepath.Base(file)))
+		fmt.Println(filepath.Join(random, filepath.Base(file)))
+	}
 
-	// start hoi server
-	server.Start(publicDir)
 }
 
 func randomString(length int) string {
