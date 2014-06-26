@@ -3,15 +3,24 @@ package main
 import (
 	"crypto/rand"
 	"fmt"
+	flags "github.com/jessevdk/go-flags"
+	"github.com/monochromegane/hoi/option"
 	"github.com/monochromegane/hoi/server"
 	"os"
 	"os/user"
 	"path/filepath"
 )
 
+var opts option.Options
+
 func main() {
 
-	file := os.Args[1]
+        args, err := flags.Parse(&opts)
+        if err != nil {
+                os.Exit(1)
+        }
+
+	file := args[0]
 
 	// create hoi public directory
 	usr, _ := user.Current()
