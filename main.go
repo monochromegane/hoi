@@ -7,6 +7,7 @@ import (
 	"github.com/monochromegane/hoi/option"
 	"github.com/monochromegane/hoi/server"
 	"os"
+	"os/exec"
 	"os/user"
 	"path/filepath"
 )
@@ -40,6 +41,10 @@ func main() {
 		os.Symlink(file, filepath.Join(randomDir, filepath.Base(file)))
 
 		fmt.Println(filepath.Join(random, filepath.Base(file)))
+
+		// run hoi server as a daemon
+		cmd := exec.Command(os.Args[0], "--server")
+		cmd.Start()
 	}
 
 }
