@@ -3,13 +3,14 @@ package main
 import (
 	"crypto/rand"
 	"fmt"
-	flags "github.com/jessevdk/go-flags"
-	"github.com/monochromegane/hoi/option"
-	"github.com/monochromegane/hoi/server"
 	"os"
 	"os/exec"
 	"os/user"
 	"path/filepath"
+
+	flags "github.com/jessevdk/go-flags"
+	"github.com/monochromegane/hoi/option"
+	"github.com/monochromegane/hoi/server"
 )
 
 var opts option.Options
