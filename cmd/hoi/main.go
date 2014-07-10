@@ -9,11 +9,10 @@ import (
 	"path/filepath"
 
 	flags "github.com/jessevdk/go-flags"
-	"github.com/monochromegane/hoi/option"
-	"github.com/monochromegane/hoi/server"
+	"github.com/monochromegane/hoi"
 )
 
-var opts option.Options
+var opts hoi.Options
 
 func main() {
 
@@ -30,7 +29,7 @@ func main() {
 
 	if opts.Server {
 		// start hoi server
-		server.Start(publicDir)
+		hoi.Start(publicDir)
 	} else {
 		// create random directory
 		random := randomString(32)
@@ -62,5 +61,5 @@ func randomString(length int) string {
 }
 
 func printUrl(path string) {
-	fmt.Println(server.Url() + "/" + path)
+	fmt.Println(hoi.Url() + "/" + path)
 }

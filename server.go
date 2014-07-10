@@ -1,4 +1,4 @@
-package server
+package hoi
 
 import (
 	"net"
