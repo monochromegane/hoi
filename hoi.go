@@ -28,7 +28,7 @@ func (h Hoi) MakePublic(file string) string {
 
 func (h Hoi) makePublic(src, dest string) string {
 	// create public dir
-	os.MkdirAll(h.publicDir, 0755)
+	os.MkdirAll(dest, 0755)
 
 	// create random directory
 	random := randomString(32)
