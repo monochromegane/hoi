@@ -11,43 +11,47 @@ import (
 type Hoi struct {
 	publicDir string
 	config    Config
-	server    HoiServer
 }
 
 func NewHoi() *Hoi {
 	return &Hoi{
-		publicDir: createPublicDir(),
+		publicDir: publicDir(),
 		config:    Load(configPath()),
 	}
 }
 
-func (h Hoi) Server() *HoiServer {
-	return &HoiServer{
-		DocumentRoot: publicDir(),
-		Port:         h.config.Port,
-	}
-}
-
 func (h Hoi) MakePublic(file string) string {
-	linked := h.makePublic(file)
+	linked := h.makePublic(file, h.publicDir)
 	h.printUrl(linked)
 	return linked
 }
 
-func (h Hoi) makePublic(file string) string {
-	// create symblic link
-	return linkToFile(file, h.publicDir)
+func (h Hoi) makePublic(src, dest string) string {
+	// create public dir
+	os.MkdirAll(h.publicDir, 0755)
+
+	// create random directory
+	random := randomString(32)
+	randomDir := filepath.Join(dest, random)
+	os.Mkdir(randomDir, 0755)
+
+	// make public by symblic link
+	file := filepath.Base(src)
+	os.Symlink(src, filepath.Join(randomDir, file))
+
+	return filepath.Join(random, file)
+}
+
+func (h Hoi) Server() *HoiServer {
+	return &HoiServer{
+		DocumentRoot: h.publicDir,
+		Port:         h.config.Port,
+	}
 }
 
 func (h Hoi) printUrl(path string) {
 	server := h.Server()
 	fmt.Println(server.Url() + "/" + path)
-}
-
-func createPublicDir() string {
-	publicDir := publicDir()
-	os.MkdirAll(publicDir, 0755)
-	return publicDir
 }
 
 func publicDir() string {
@@ -61,21 +65,6 @@ func configPath() string {
 func homeDir() string {
 	usr, _ := user.Current()
 	return usr.HomeDir
-}
-
-func linkToFile(src, dest string) string {
-
-	file := filepath.Base(src)
-
-	// create random directory
-	random := randomString(32)
-	randomDir := filepath.Join(dest, random)
-	os.Mkdir(randomDir, 0755)
-
-	// create symblic link
-	os.Symlink(src, filepath.Join(randomDir, file))
-
-	return filepath.Join(random, file)
 }
 
 func randomString(length int) string {
