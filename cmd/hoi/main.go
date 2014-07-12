@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
 
@@ -18,26 +17,23 @@ func main() {
 		os.Exit(1)
 	}
 
-	// create hoi public directory
-	publicDir := hoi.MakePublicDir()
-
 	if opts.Server {
 		// start hoi server
-		hoi.Start(publicDir)
+		hoi.StartServer()
 	} else {
-		// create symblic link
-		link := hoi.LinkToFile(args[0])
+		// make public
+		link := hoi.MakePublic(args[0])
 
 		// print URL
-		printUrl(link)
+		hoi.PrintUrl(link)
 
 		// run hoi server as a daemon
-		cmd := exec.Command(os.Args[0], "--server")
-		cmd.Start()
+		runAsDaemon()
 	}
 
 }
 
-func printUrl(path string) {
-	fmt.Println(hoi.Url() + "/" + path)
+func runAsDaemon() {
+	cmd := exec.Command(os.Args[0], "--server")
+	cmd.Start()
 }
