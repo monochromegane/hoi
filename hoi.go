@@ -14,8 +14,12 @@ type Hoi struct {
 }
 
 func NewHoi() *Hoi {
+	// create public dir
+	publicDir := publicDir()
+	os.MkdirAll(publicDir, 0755)
+
 	return &Hoi{
-		publicDir: publicDir(),
+		publicDir: publicDir,
 		config:    Load(configPath()),
 	}
 }
@@ -27,9 +31,6 @@ func (h Hoi) MakePublic(file string) string {
 }
 
 func (h Hoi) makePublic(src, dest string) string {
-	// create public dir
-	os.MkdirAll(dest, 0755)
-
 	// create random directory
 	random := randomString(32)
 	randomDir := filepath.Join(dest, random)
