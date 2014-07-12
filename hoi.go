@@ -49,6 +49,10 @@ func (h Hoi) Server() *HoiServer {
 	}
 }
 
+func (h Hoi) Clear() {
+	os.RemoveAll(h.publicDir)
+}
+
 func (h Hoi) printUrl(path string) {
 	server := h.Server()
 	fmt.Println(server.Url() + "/" + path)

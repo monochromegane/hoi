@@ -19,6 +19,17 @@ func TestMakePublic(t *testing.T) {
 	}
 }
 
+func TestClear(t *testing.T) {
+	publicDir := "public_test"
+	hoi := Hoi{publicDir: publicDir}
+	hoi.makePublic("hoi.go", publicDir)
+	hoi.Clear()
+	_, err := os.Lstat(publicDir)
+	if err == nil {
+		t.Errorf("It should be clear %s, %s", publicDir, err)
+	}
+}
+
 func TestRandomString(t *testing.T) {
 	expect := 10
 	random := randomString(expect)

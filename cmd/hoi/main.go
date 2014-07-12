@@ -18,10 +18,14 @@ func main() {
 	}
 
 	hoi := hoi.NewHoi()
-	if opts.Server {
+	switch {
+	case opts.Clear:
+		// clear all symlinks by removing public directory
+		hoi.Clear()
+	case opts.Server:
 		// start hoi server
 		hoi.Server().Start()
-	} else {
+	default:
 		// make public
 		hoi.MakePublic(args[0])
 		// run hoi server as a daemon
