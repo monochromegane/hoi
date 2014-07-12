@@ -7,13 +7,18 @@ import (
 	"regexp"
 )
 
-func Start(documentRoot string) {
-	http.Handle("/", http.FileServer(http.Dir(documentRoot)))
-	http.ListenAndServe(":8080", nil)
+type HoiServer struct {
+	DocumentRoot string
+	Port         string
 }
 
-func Url() string {
-	return "http://" + localIpAddress() + ":8080"
+func (h HoiServer) Start() {
+	http.Handle("/", http.FileServer(http.Dir(h.DocumentRoot)))
+	http.ListenAndServe(":"+h.Port, nil)
+}
+
+func (h HoiServer) Url() string {
+	return "http://" + localIpAddress() + ":" + h.Port
 }
 
 func localIpAddress() string {

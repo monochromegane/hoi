@@ -8,32 +8,59 @@ import (
 	"path/filepath"
 )
 
-func MakePublic(file string) string {
-	// create hoi public directory
-	publicDir := MakePublicDir()
+type Hoi struct {
+	publicDir string
+	config    Config
+	server    HoiServer
+}
 
+func NewHoi() *Hoi {
+	return &Hoi{
+		publicDir: createPublicDir(),
+		config:    Load(configPath()),
+	}
+}
+
+func (h Hoi) Server() *HoiServer {
+	return &HoiServer{
+		DocumentRoot: publicDir(),
+		Port:         h.config.Port,
+	}
+}
+
+func (h Hoi) MakePublic(file string) string {
+	linked := h.makePublic(file)
+	h.printUrl(linked)
+	return linked
+}
+
+func (h Hoi) makePublic(file string) string {
 	// create symblic link
-	return linkToFile(file, publicDir)
+	return linkToFile(file, h.publicDir)
 }
 
-func StartServer() {
-	Start(publicDir())
+func (h Hoi) printUrl(path string) {
+	server := h.Server()
+	fmt.Println(server.Url() + "/" + path)
 }
 
-func PrintUrl(path string) {
-	fmt.Println(Url() + "/" + path)
-}
-
-func MakePublicDir() string {
+func createPublicDir() string {
 	publicDir := publicDir()
 	os.MkdirAll(publicDir, 0755)
 	return publicDir
 }
 
 func publicDir() string {
+	return filepath.Join(homeDir(), ".hoi", "public")
+}
+
+func configPath() string {
+	return filepath.Join(homeDir(), ".hoi", "conf.json")
+}
+
+func homeDir() string {
 	usr, _ := user.Current()
-	homeDir := usr.HomeDir
-	return filepath.Join(homeDir, ".hoi", "public")
+	return usr.HomeDir
 }
 
 func linkToFile(src, dest string) string {

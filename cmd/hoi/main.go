@@ -17,20 +17,16 @@ func main() {
 		os.Exit(1)
 	}
 
+	hoi := hoi.NewHoi()
 	if opts.Server {
 		// start hoi server
-		hoi.StartServer()
+		hoi.Server().Start()
 	} else {
 		// make public
-		link := hoi.MakePublic(args[0])
-
-		// print URL
-		hoi.PrintUrl(link)
-
+		hoi.MakePublic(args[0])
 		// run hoi server as a daemon
 		runAsDaemon()
 	}
-
 }
 
 func runAsDaemon() {
