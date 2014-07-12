@@ -1,12 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 
 	flags "github.com/jessevdk/go-flags"
 	"github.com/monochromegane/hoi"
 )
+
+const version = "0.1.0"
 
 var opts hoi.Options
 
@@ -19,6 +22,8 @@ func main() {
 
 	hoi := hoi.NewHoi()
 	switch {
+	case opts.Version:
+		fmt.Printf("%s\n", version)
 	case opts.Clear:
 		// clear all symlinks by removing public directory
 		hoi.Clear()
