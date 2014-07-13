@@ -68,8 +68,15 @@ func configPath() string {
 }
 
 func homeDir() string {
-	usr, _ := user.Current()
-	return usr.HomeDir
+	usr, err := user.Current()
+	var homeDir string
+	if err == nil {
+		homeDir = usr.HomeDir
+	} else {
+		// Maybe it's cross compilation without cgo support. (darwin, unix)
+		homeDir = os.Getenv("HOME")
+	}
+	return homeDir
 }
 
 func randomString(length int) string {
