@@ -3,8 +3,8 @@ package hoi
 import (
 	"net"
 	"net/http"
-	"os"
 	"regexp"
+	"strings"
 )
 
 type HoiServer struct {
@@ -22,11 +22,14 @@ func (h HoiServer) Url() string {
 }
 
 func localIpAddress() string {
-	name, _ := os.Hostname()
-	addrs, _ := net.LookupHost(name)
-	for _, a := range addrs {
+	addrs, _ := net.InterfaceAddrs()
+	for _, addr := range addrs {
+		a := addr.String()
 		if m, _ := regexp.MatchString("(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})", a); m {
-			return a
+			if strings.Contains(a, "127.0.0.1") {
+				continue
+			}
+			return strings.Split(a, "/")[0]
 		}
 	}
 	return ""
