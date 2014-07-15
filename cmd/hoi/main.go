@@ -15,7 +15,10 @@ var opts hoi.Options
 
 func main() {
 
-	args, err := flags.Parse(&opts)
+	parser := flags.NewParser(&opts, flags.Default)
+	parser.Name = "hoi"
+	parser.Usage = "[OPTIONS] PATH"
+	args, err := parser.Parse()
 	if err != nil {
 		os.Exit(1)
 	}
@@ -31,6 +34,10 @@ func main() {
 		// start hoi server
 		hoi.Server().Start()
 	default:
+		if len(args) < 1 {
+			parser.WriteHelp(os.Stdout)
+			os.Exit(1)
+		}
 		// make public
 		hoi.MakePublic(args[0])
 		// run hoi server as a daemon
