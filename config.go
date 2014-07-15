@@ -27,6 +27,6 @@ func Load(path string) Config {
 
 func defaultConfig() Config {
 	return Config{
-		Port: "8080",
+		Port: "8081",
 	}
 }
