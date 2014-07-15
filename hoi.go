@@ -60,7 +60,7 @@ func (h Hoi) printUrl(path string) {
 }
 
 func publicDir() string {
-	return filepath.Join(homeDir(), ".hoi", "public")
+	return filepath.Join(homeDir(), ".hoi", "temp_public")
 }
 
 func configPath() string {
