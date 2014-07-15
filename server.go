@@ -4,21 +4,22 @@ import (
 	"net"
 	"net/http"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
 type HoiServer struct {
 	DocumentRoot string
-	Port         string
+	Port         int
 }
 
 func (h HoiServer) Start() {
 	http.Handle("/", http.FileServer(http.Dir(h.DocumentRoot)))
-	http.ListenAndServe(":"+h.Port, nil)
+	http.ListenAndServe(":"+strconv.Itoa(h.Port), nil)
 }
 
 func (h HoiServer) Url() string {
-	return "http://" + localIpAddress() + ":" + h.Port
+	return "http://" + localIpAddress() + ":" + strconv.Itoa(h.Port)
 }
 
 func localIpAddress() string {

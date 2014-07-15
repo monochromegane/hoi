@@ -6,7 +6,7 @@ import (
 )
 
 type Config struct {
-	Port string `json:"port"`
+	Port int `json:"port"`
 }
 
 func Load(path string) Config {
@@ -27,6 +27,6 @@ func Load(path string) Config {
 
 func defaultConfig() Config {
 	return Config{
-		Port: "8081",
+		Port: 8081,
 	}
 }

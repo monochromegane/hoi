@@ -1,12 +1,13 @@
 package hoi
 
 import (
+	"strconv"
 	"strings"
 	"testing"
 )
 
 func TestUrl(t *testing.T) {
-	expect := "8081"
+	expect := 8081
 	server := HoiServer{
 		Port: expect,
 	}
@@ -14,7 +15,7 @@ func TestUrl(t *testing.T) {
 	if !strings.Contains(url, "http://") {
 		t.Errorf("It should be contains %s", "http://")
 	}
-	if !strings.Contains(url, ":"+expect) {
-		t.Errorf("It should be contains %s", ":"+expect)
+	if !strings.Contains(url, ":"+strconv.Itoa(expect)) {
+		t.Errorf("It should be contains %s", ":"+strconv.Itoa(expect))
 	}
 }
