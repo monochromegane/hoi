@@ -3,6 +3,7 @@ package hoi
 import (
 	"crypto/rand"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -51,7 +52,10 @@ func (h Hoi) Server() *HoiServer {
 }
 
 func (h Hoi) Clear() {
-	os.RemoveAll(h.publicDir)
+	contents, _ := ioutil.ReadDir(h.publicDir)
+	for _, c := range contents {
+		os.RemoveAll(filepath.Join(h.publicDir, c.Name()))
+	}
 }
 
 func (h Hoi) printUrl(path string) {

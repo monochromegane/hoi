@@ -1,6 +1,7 @@
 package hoi
 
 import (
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -26,9 +27,9 @@ func TestClear(t *testing.T) {
 	hoi := Hoi{publicDir: publicDir}
 	hoi.makePublic("hoi.go", publicDir)
 	hoi.Clear()
-	_, err := os.Lstat(publicDir)
-	if err == nil {
-		t.Errorf("It should be clear %s, %s", publicDir, err)
+	contents, _ := ioutil.ReadDir(publicDir)
+	if len(contents) > 0 {
+		t.Errorf("It should be clear %s", publicDir)
 	}
 }
 
