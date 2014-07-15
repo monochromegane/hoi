@@ -24,6 +24,7 @@ func TestMakePublic(t *testing.T) {
 func TestClear(t *testing.T) {
 	publicDir := "public_test"
 	os.MkdirAll(publicDir, 0755)
+	defer os.RemoveAll(publicDir)
 	hoi := Hoi{publicDir: publicDir}
 	hoi.makePublic("hoi.go", publicDir)
 	hoi.Clear()
