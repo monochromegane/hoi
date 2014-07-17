@@ -1,4 +1,4 @@
-# hoi
+# Hoi
 
 An easy file transfer tool using http file server.
 
