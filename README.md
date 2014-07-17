@@ -7,7 +7,7 @@ An easy file transfer tool using http file server.
 ### Developer
 
 ```sh
-$ go get github.com/monochromegane/hoi
+$ go get github.com/monochromegane/hoi/...
 ```
 
 ### User
