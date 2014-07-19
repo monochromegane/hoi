@@ -10,7 +10,7 @@ import (
 	"github.com/monochromegane/hoi"
 )
 
-const version = "0.1.0"
+const version = "0.1.1"
 
 var opts hoi.Options
 
