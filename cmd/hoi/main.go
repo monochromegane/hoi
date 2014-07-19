@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 
 	flags "github.com/jessevdk/go-flags"
 	"github.com/monochromegane/hoi"
@@ -39,7 +40,11 @@ func main() {
 			os.Exit(1)
 		}
 		// make public
-		hoi.MakePublic(args[0])
+		abspath, patherr := filepath.Abs(args[0])
+		if patherr != nil {
+			os.Exit(1)
+		}
+		hoi.MakePublic(abspath)
 		// run hoi server as a daemon
 		runAsDaemon()
 	}
