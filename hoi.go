@@ -25,6 +25,24 @@ func NewHoi() *Hoi {
 	}
 }
 
+func (h Hoi) TestFile(file string) (string, error) {
+	var (
+		path string
+		err  error
+	)
+	// absolutize
+	path, err = filepath.Abs(file)
+	if err != nil {
+		return path, err
+	}
+	// check existence
+	_, err = os.Stat(path)
+	if err != nil {
+		return path, err
+	}
+	return path, nil
+}
+
 func (h Hoi) MakePublic(file string) string {
 	linked := h.makePublic(file, h.publicDir)
 	h.printUrl(linked)
