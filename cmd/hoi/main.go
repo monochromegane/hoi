@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"path/filepath"
 
 	flags "github.com/jessevdk/go-flags"
 	"github.com/monochromegane/hoi"
@@ -40,8 +39,9 @@ func main() {
 			os.Exit(1)
 		}
 		// make public
-		abspath, patherr := filepath.Abs(args[0])
+		abspath, patherr := hoi.TestFile(args[0])
 		if patherr != nil {
+			fmt.Println(patherr)
 			os.Exit(1)
 		}
 		hoi.MakePublic(abspath)
