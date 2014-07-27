@@ -7,6 +7,21 @@ import (
 	"testing"
 )
 
+func TestTestFile(t *testing.T) {
+	var err error
+	hoi := Hoi{}
+
+	_, err = hoi.TestFile("hoi.go")
+	if err != nil {
+		t.Errorf("It should have no error in case file exists")
+	}
+
+	_, err = hoi.TestFile("foobar")
+	if err == nil {
+		t.Errorf("It should have error in case file does not exist ")
+	}
+}
+
 func TestMakePublic(t *testing.T) {
 	publicDir := "public_test"
 	os.MkdirAll(publicDir, 0755)
