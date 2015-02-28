@@ -18,7 +18,7 @@ func main() {
 
 	parser := flags.NewParser(&opts, flags.Default)
 	parser.Name = "hoi"
-	parser.Usage = "[OPTIONS] PATH"
+	parser.Usage = "[OPTIONS] PATH|MESSAGE [@SlackUser]"
 	args, err := parser.Parse()
 	if err != nil {
 		os.Exit(1)

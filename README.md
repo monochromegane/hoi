@@ -1,6 +1,6 @@
 # Hoi
 
-An easy file transfer tool using http file server.
+An easy file/message transfer tool using http file server.
 
 ## Installation
 
@@ -19,7 +19,9 @@ Download from the following url.
 
 ## Usage
 
-You can build download url.
+### Send file
+
+You can build a download url.
 
 ```sh
 $ hoi hoge.txt
@@ -27,6 +29,26 @@ http://192.168.0.100:8081/tx1lrmkkqenh5fy0izbassidb9t9l1na/hoge.txt
 ```
 
 `hoi` links the file to `~/.hoi/temp_public/random`, and it's document root directory for `hoi server`.
+
+### Send message
+
+```sh
+$ hoi message1 message2
+http://192.168.0.100:8081/tx1lrmkkqenh5fy0izbassidb9t9l1na/message.txt
+```
+`hoi` create a message file to `~/.hoi/temp_public/random`, and it's document root directory for `hoi server`.
+
+### Notify
+
+You can notify the url to `Slack` account.
+
+```sh
+$ hoi file|message @user
+http://192.168.0.100:8081/tx1lrmkkqenh5fy0izbassidb9t9l1na/message.txt
+Message sent successfully to @user
+```
+
+Hoi supports [Slack API](https://api.slack.com/) and [takosan (a simple web interface to Slack)](https://github.com/kentaro/takosan).
 
 ### Configuration
 
@@ -37,6 +59,31 @@ http://192.168.0.100:8081/tx1lrmkkqenh5fy0izbassidb9t9l1na/hoge.txt
 ```json
 {
   "port": 8082
+}
+```
+
+if you want to use notify for Slack:
+
+```json
+{
+  "notification": {
+    "from":  "YOUR SLACK ACCOUNT",
+    "to":    "slack",
+    "token": "YOUR SLACK API TOKEN"
+  }
+}
+```
+
+Or takosan:
+
+```json
+{
+  "notification": {
+    "from": "YOUR SLACK ACCOUNT",
+    "to":   "takosan",
+    "host": "TAKOSAN HOST NAME",
+    "port": TAKOSAN PORT NUMBER,
+  }
 }
 ```
 
