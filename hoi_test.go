@@ -27,8 +27,8 @@ func TestMakePublic(t *testing.T) {
 	os.MkdirAll(publicDir, 0755)
 	defer os.RemoveAll(publicDir)
 
-	hoi := Hoi{}
-	linked := hoi.makePublic("hoi.go", publicDir)
+	hoi := Hoi{publicDir: publicDir}
+	linked := hoi.makePublic("hoi.go")
 
 	file, err := os.Lstat(filepath.Join(publicDir, linked))
 	if err != nil {
@@ -41,7 +41,7 @@ func TestClear(t *testing.T) {
 	os.MkdirAll(publicDir, 0755)
 	defer os.RemoveAll(publicDir)
 	hoi := Hoi{publicDir: publicDir}
-	hoi.makePublic("hoi.go", publicDir)
+	hoi.makePublic("hoi.go")
 	hoi.Clear()
 	contents, _ := ioutil.ReadDir(publicDir)
 	if len(contents) > 0 {

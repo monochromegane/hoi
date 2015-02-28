@@ -45,12 +45,12 @@ func (h Hoi) TestFile(file string) (string, error) {
 }
 
 func (h Hoi) MakePublic(file string) string {
-	linked := h.makePublic(file, h.publicDir)
+	linked := h.makePublic(file)
 	h.printUrl(linked)
 	return linked
 }
 
-func (h Hoi) makePublic(src, dest string) string {
+func (h Hoi) makePublic(src string) string {
 	// create random directory
 	random := h.createRandomDir()
 
