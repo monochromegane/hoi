@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"strings"
 )
 
 type Hoi struct {
@@ -51,15 +52,40 @@ func (h Hoi) MakePublic(file string) string {
 
 func (h Hoi) makePublic(src, dest string) string {
 	// create random directory
-	random := randomString(32)
-	randomDir := filepath.Join(dest, random)
-	os.Mkdir(randomDir, 0755)
+	random := h.createRandomDir()
 
 	// make public by symblic link
 	file := filepath.Base(src)
-	os.Symlink(src, filepath.Join(randomDir, file))
+	os.Symlink(src, filepath.Join(h.publicDir, random, file))
 
 	return filepath.Join(random, file)
+}
+
+func (h Hoi) MakeMessage(msgs []string) string {
+	message := h.makeMessage(msgs)
+	h.printUrl(message)
+	return message
+}
+
+func (h Hoi) makeMessage(msgs []string) string {
+	// create random directory
+	random := h.createRandomDir()
+
+	// make public by message file
+	file, err := os.Create(filepath.Join(h.publicDir, random, "message.txt"))
+	if err != nil {
+		return ""
+	}
+	defer file.Close()
+
+	file.WriteString(strings.Join(msgs, " "))
+	return filepath.Join(random, "message.txt")
+}
+
+func (h Hoi) createRandomDir() string {
+	random := randomString(32)
+	os.Mkdir(filepath.Join(h.publicDir, random), 0755)
+	return random
 }
 
 func (h Hoi) Server() *HoiServer {

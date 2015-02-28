@@ -39,12 +39,11 @@ func main() {
 			os.Exit(1)
 		}
 		// make public
-		abspath, patherr := hoi.TestFile(args[0])
-		if patherr != nil {
-			fmt.Println(patherr)
-			os.Exit(1)
+		if abspath, patherr := hoi.TestFile(args[0]); patherr == nil {
+			hoi.MakePublic(abspath)
+		} else {
+			hoi.MakeMessage(args)
 		}
-		hoi.MakePublic(abspath)
 		// run hoi server as a daemon
 		runAsDaemon()
 	}
