@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 
 	flags "github.com/jessevdk/go-flags"
 	"github.com/monochromegane/hoi"
@@ -39,11 +40,21 @@ func main() {
 			os.Exit(1)
 		}
 		// make public
+		args, to := parseArgs(args)
+		var path string
 		if abspath, patherr := hoi.TestFile(args[0]); patherr == nil {
-			hoi.MakePublic(abspath)
+			path = hoi.MakePublic(abspath)
 		} else {
-			hoi.MakeMessage(args)
+			path = hoi.MakeMessage(args)
 		}
+		url := hoi.ToUrl(path)
+		fmt.Println(url)
+
+		// notify
+		if to != "" {
+			fmt.Fprint(os.Stderr, hoi.Notify(to, url))
+		}
+
 		// run hoi server as a daemon
 		runAsDaemon()
 	}
@@ -52,4 +63,11 @@ func main() {
 func runAsDaemon() {
 	cmd := exec.Command(os.Args[0], "--server")
 	cmd.Start()
+}
+
+func parseArgs(args []string) ([]string, string) {
+	if strings.HasPrefix(args[len(args)-1], "@") {
+		return args[:len(args)-1], args[len(args)-1]
+	}
+	return args, ""
 }

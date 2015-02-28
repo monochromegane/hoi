@@ -46,7 +46,6 @@ func (h Hoi) TestFile(file string) (string, error) {
 
 func (h Hoi) MakePublic(file string) string {
 	linked := h.makePublic(file)
-	h.printUrl(linked)
 	return linked
 }
 
@@ -63,7 +62,6 @@ func (h Hoi) makePublic(src string) string {
 
 func (h Hoi) MakeMessage(msgs []string) string {
 	message := h.makeMessage(msgs)
-	h.printUrl(message)
 	return message
 }
 
@@ -102,9 +100,20 @@ func (h Hoi) Clear() {
 	}
 }
 
-func (h Hoi) printUrl(path string) {
+func (h Hoi) ToUrl(path string) string {
 	server := h.Server()
-	fmt.Println(server.Url() + "/" + path)
+	return fmt.Sprintf("%s/%s", server.Url(), path)
+}
+
+func (h Hoi) Notify(to, message string) string {
+	n := NewNotifier(h.config.Notification)
+	if n == nil {
+		return ""
+	}
+	if err := n.Notify(to, message); err != nil {
+		return err.Error()
+	}
+	return fmt.Sprintf("Message sent successfully to %s\n", to)
 }
 
 func publicDir() string {

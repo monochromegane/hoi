@@ -9,6 +9,8 @@ import (
 	"github.com/nlopes/slack"
 )
 
+const template = "Hi, you got a message from @%s\n%s"
+
 type Notifier interface {
 	Notify(to, message string) error
 }
@@ -39,13 +41,13 @@ type SlackNotifier struct {
 func (s SlackNotifier) Notify(to, message string) error {
 	_, _, err := s.Client.PostMessage(
 		to,
-		message,
+		fmt.Sprintf(template, s.From, message),
 		slack.PostMessageParameters{
 			Username: s.From,
 		},
 	)
 	if err != nil {
-		return fmt.Errorf("Failed to send message to %s: %s\n", to, err)
+		return fmt.Errorf("Failed to send message to %s: %s", to, err)
 	}
 	return nil
 }
@@ -59,7 +61,7 @@ type TakosanNotifier struct {
 func (t TakosanNotifier) Notify(to, message string) error {
 	res, err := http.PostForm(
 		fmt.Sprintf("http://%s:%d/privmsg", t.Host, t.Port),
-		url.Values{"channel": {to}, "message": {message}},
+		url.Values{"channel": {to}, "message": {fmt.Sprintf(template, t.From, message)}},
 	)
 	if err != nil {
 		return err
@@ -67,8 +69,8 @@ func (t TakosanNotifier) Notify(to, message string) error {
 	body, _ := ioutil.ReadAll(res.Body)
 	defer res.Body.Close()
 
-	if res.Status == "400" {
-		return fmt.Errorf("%s\n", body)
+	if res.StatusCode == http.StatusBadRequest {
+		return fmt.Errorf("%s", body)
 	}
 	return nil
 }
