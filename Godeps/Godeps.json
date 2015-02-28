@@ -1,14 +1,14 @@
 {
 	"ImportPath": "github.com/monochromegane/hoi",
-	"GoVersion": "go1.3",
-	"Packages": [
-		"./..."
-	],
+	"GoVersion": "go1.4.2",
 	"Deps": [
 		{
-			"ImportPath": "github.com/jessevdk/go-flags",
-			"Comment": "v1-172-g8ec9564",
-			"Rev": "8ec9564882e7923e632f012761c81c46dcf5bec1"
+			"ImportPath": "github.com/nlopes/slack",
+			"Rev": "06f2fedd66cd7adcee36bb2b4c50da1564500741"
+		},
+		{
+			"ImportPath": "golang.org/x/net/websocket",
+			"Rev": "b6fdb7d8a4ccefede406f8fe0f017fb58265054c"
 		}
 	]
 }
