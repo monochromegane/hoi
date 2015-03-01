@@ -16,6 +16,12 @@ Download from the following url.
 
 - [https://github.com/monochromegane/hoi/releases](https://github.com/monochromegane/hoi/releases)
 
+Or, you can use Homebrew (Only MacOSX).
+
+```sh
+$ brew tap monochromegane/hoi
+$ brew install hoi
+```
 
 ## Usage
 
@@ -62,7 +68,7 @@ Hoi supports [Slack API](https://api.slack.com/) and [takosan (a simple web inte
 }
 ```
 
-if you want to use notify for Slack:
+if you want to use notification for Slack:
 
 ```json
 {
@@ -74,7 +80,7 @@ if you want to use notify for Slack:
 }
 ```
 
-Or takosan:
+or takosan:
 
 ```json
 {
