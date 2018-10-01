@@ -23,6 +23,11 @@ build:
 deploy:
   steps:
     - script:
+        name: install packages
+        code: |
+          apt-get update -y
+          apt-get install -y file
+    - script:
         name: restore release tag
         code: |
           export RELEASE_TAG=$(cat .release_tag)
