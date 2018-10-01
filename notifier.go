@@ -35,7 +35,7 @@ func NewNotifier(conf Notification) Notifier {
 
 type SlackNotifier struct {
 	From   string
-	Client *slack.Slack
+	Client *slack.Client
 }
 
 func (s SlackNotifier) Notify(to, message string) error {
