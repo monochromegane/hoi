@@ -1,22 +1,21 @@
-box: monochromegane/golang-xc
+box: golang:latest
 build:
   steps:
     - setup-go-workspace
     - script:
-        name: go get
+        name: install deps
         code: |
-          go version
-          godep restore
+          apt update -qqy
+          apt install -qqy make
+          make depsdev
     - script:
         name: go test
         code: |
-          godep go test ./...
+          make test
     - script:
         name: goxc build & archive
         code: |
-          GODEPPATH=`godep path`
-          export GOPATH="$GODEPPATH:$GOPATH"
-          goxc -tasks='xc archive' -bc 'linux windows darwin' -d $WERCKER_OUTPUT_DIR/ -resources-include='README*'
+          make goxc
     - script:
         name: output release tag
         code: |
