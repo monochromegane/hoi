@@ -1,6 +1,6 @@
 GO ?= GO111MODULE=on go
 
-depsdev: ghch
+depsdev:
 	$(GO) get github.com/laher/goxc
 
 run:
